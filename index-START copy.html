@@ -96,53 +96,59 @@
   </div>
 
 <script>
-  // shift's keyCode is 16
 
-  // find the input element✅
-  // listen for when an item is checked
-  // listen for when shift is pressed
-  // listen for when a second item is clicked while shift remains pressed
+const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
 
-  const input = document.querySelectorAll('.inbox input[type="checkbox"]');
+// we need to make a variable to log what the last click was 
+  // -> we need to be able to track this so we know what range boxes 
+  // will be checked using shift
+
+// making a variable available to be reassigned later
+// putting this as the last thing we do in our handleCheck function
+let lastChecked; 
+
+function handleCheck(e) {
+  // check if the user had the shift key down
+  // AND check that are *checking* the box (not unchecking it)
+  // select the checkboxes while shift is down
   
-  const selected = window.addEventListener('click', (e) => {
-    checked = true;
-    console.log('clicked');
-  })
+  // create a variable called "inBetween" 
+    // -> this will be set to true when it is between the first and last click
+    // -> we will go through each item and check if it's 'inBetween'
+    // -> once we hit an item with 'inBetween = false' this will indicate the last click
+  let inBetween = false;
 
-  const shiftBtn = window.addEventListener('keydown', (e) => {
-    checked = true;
-    console.log('button pressed')
-  })
+  if(e.shiftKey && this.checked) {
+    // loop over every single checkbox 
+    checkboxes.forEach(checkbox => {
+      console.log(checkbox)
+      // 'checkbox === this' is saying the checkbox is equal to the one that got checked
+      // while this is true, turn the inBetween variable to the opposite of what it was (was false, now is true)
+      // checkbox === lastChecked is checking if it's the final checked box
+      // if either condition is true, change the value of inBetween
+      if(checkbox === this || checkbox === lastChecked) {
+        inBetween =!inBetween //
+      }
 
-  // const mouseMove = window.addEventListener('mouseover', (e) => {
-  //   console.log("moved")
-  // })
+      // if inBetween is true, we are programmatically setting checked to true
+      // this will give us access to the css input:checked property
+      if(inBetween) {
+        checkbox.checked = true;
+      }
 
-  const mouseClick = window.addEventListener('mousedown', (e) => {
-    console.log('click2')
-  })
-
-  if(shiftBtn && mouseClick) {
-    const selectBox = document.querySelector('.item');
-    selectBox.classList.add('input:checked')
+    })
   }
 
-  // if(selected = true &&)
+  lastChecked = this;
+}
 
-  console.log(input)
-
-// if(input.checked = true) {
-  //   console.log('true')
-  // }
-  // const findChecked = input.forEach(checkbox => {
-  //   if(input.checked = "checked=true") {
-  //     console.log('I have been checked')
-  //   }
-  // })
+// need to go through each checkbox(use forEach) and listen for a click
+// when it is clicked have a function run (write the function above that will be used)
+checkboxes.forEach(checkbox => {
+  checkbox.addEventListener('click', handleCheck);
+})
 
 
-  
 </script>
 </body>
 </html>
